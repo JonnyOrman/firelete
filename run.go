@@ -1,7 +1,7 @@
 package firelete
 
-func Run() {
-	application := BuildApplication()
+func Run[TID ID]() {
+	application := BuildApplication[TID]()
 
 	application.Run()
 }

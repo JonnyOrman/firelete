@@ -4,7 +4,7 @@ import (
 	"github.com/jonnyorman/fireworks"
 )
 
-func BuildApplication() *fireworks.Application {
+func BuildApplication[TID ID]() *fireworks.Application {
 	configuration := fireworks.GenerateConfiguration("firelete-config")
 
 	pubSubBodyDeserialiser := fireworks.JsonDataDeserialiser[fireworks.PubSubBody]{}
@@ -15,15 +15,15 @@ func BuildApplication() *fireworks.Application {
 		ioutilReader,
 		pubSubBodyDeserialiser)
 
-	dataDeserialiser := fireworks.JsonDataDeserialiser[Parameters]{}
+	dataDeserialiser := fireworks.JsonDataDeserialiser[Parameters[TID]]{}
 
-	dataReader := fireworks.NewHttpRequestBodyDataReader[Parameters](
+	dataReader := fireworks.NewHttpRequestBodyDataReader[Parameters[TID]](
 		pubSubBodyReader,
 		dataDeserialiser)
 
-	dataDeleter := NewFirestoreDataDeleter(configuration)
+	dataDeleter := NewFirestoreDataDeleter[TID](configuration)
 
-	requestHandler := NewPubSubPushRequestHandler(
+	requestHandler := NewPubSubPushRequestHandler[TID](
 		dataReader,
 		dataDeleter,
 	)

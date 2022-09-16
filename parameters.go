@@ -1,5 +1,5 @@
 package firelete
 
-type Parameters struct {
-	DocumentID string
+type Parameters[TID ID] struct {
+	DocumentID TID
 }

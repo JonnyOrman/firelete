@@ -1,5 +1,5 @@
 package firelete
 
-type DataDeleter interface {
-	Delete(parameters Parameters)
+type DataDeleter[TID ID] interface {
+	Delete(parameters Parameters[TID])
 }

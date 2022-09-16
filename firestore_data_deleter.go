@@ -7,19 +7,19 @@ import (
 	"github.com/jonnyorman/fireworks"
 )
 
-type FirestoreDataDeleter struct {
+type FirestoreDataDeleter[TID ID] struct {
 	configuration fireworks.Configuration
 }
 
-func NewFirestoreDataDeleter(configuration fireworks.Configuration) *FirestoreDataDeleter {
-	this := new(FirestoreDataDeleter)
+func NewFirestoreDataDeleter[TID ID](configuration fireworks.Configuration) *FirestoreDataDeleter[TID] {
+	this := new(FirestoreDataDeleter[TID])
 
 	this.configuration = configuration
 
 	return this
 }
 
-func (this FirestoreDataDeleter) Delete(parameters Parameters) {
+func (this FirestoreDataDeleter[TID]) Delete(parameters Parameters[TID]) {
 	ctx := context.Background()
 
 	client, _ := firestore.NewClient(ctx, this.configuration.ProjectID)
@@ -28,7 +28,7 @@ func (this FirestoreDataDeleter) Delete(parameters Parameters) {
 
 	collection := client.Collection(this.configuration.CollectionName)
 
-	document := collection.Doc(parameters.DocumentID)
+	document := collection.Doc(string(parameters.DocumentID))
 
 	document.Delete(ctx)
 }
