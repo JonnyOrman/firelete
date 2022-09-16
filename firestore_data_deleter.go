@@ -2,6 +2,7 @@ package firelete
 
 import (
 	"context"
+	"fmt"
 
 	"cloud.google.com/go/firestore"
 	"github.com/jonnyorman/fireworks"
@@ -28,7 +29,7 @@ func (this FirestoreDataDeleter[TID]) Delete(parameters Parameters[TID]) {
 
 	collection := client.Collection(this.configuration.CollectionName)
 
-	document := collection.Doc(string(parameters.DocumentID))
+	document := collection.Doc(fmt.Sprint(parameters.DocumentID))
 
 	document.Delete(ctx)
 }
