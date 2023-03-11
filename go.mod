@@ -1,11 +1,11 @@
 module github.com/jonnyorman/firelete
 
-go 1.18
+go 1.20
 
 require (
 	cloud.google.com/go/firestore v1.9.0
 	github.com/gin-gonic/gin v1.9.0
-	github.com/jonnyorman/fireworks v0.1.1-0.20230309160510-aa73a72edc54
+	github.com/jonnyorman/fireworks v0.1.1
 	github.com/stretchr/testify v1.8.2
 )
 
