@@ -80,3 +80,9 @@ If a configuration value is provided in both `firelete-config.json` and the envi
 }
 ```
 then the project ID will be "config-project-id".
+
+## Running integration tests
+
+To run integration tests in Docker against a local Firebase emulator, run the following:
+- For documents with `int` IDs: `make test-int-id`
+- For documents with `string` IDs: `make test-string-id`
