@@ -1,0 +1,10 @@
+ARG GO_VERSION
+
+FROM golang:${GO_VERSION}-alpine AS builder
+
+RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
+COPY . /firelete
+WORKDIR /firelete
+RUN go mod download
+EXPOSE 8080
+ENTRYPOINT ["go", "test"]

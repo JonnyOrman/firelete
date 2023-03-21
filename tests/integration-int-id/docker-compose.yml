@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  firebase-emulator:
+    build:
+      context: ../firebase-emulator
+      args:
+        - PROJECT=firelete-int-id-integration-tests
+    environment:
+      PROJECT: firelete-int-id-integration-tests
+    ports:
+      - "4000:4000"
+      - "8080:8080"
+  firelete-int-id-app:
+    build:
+      context: ../../
+      dockerfile: ./tests/Dockerfile.app
+      args:
+        - GO_VERSION=1.20
+        - ID_TYPE=int
+    environment:
+      PORT: 3001
+      PROJECT: firelete-int-id-integration-tests
+      PROJECT_ID: firelete-int-id-integration-tests
+      COLLECTION_NAME: TestCollection
+      FIRESTORE_EMULATOR_HOST: firebase-emulator:8080
+    ports:
+      - "3001:3001"
+    depends_on:
+      - firebase-emulator
+  firelete-int-id-app-tests:
+    build:
+      context: ../../
+      dockerfile: ./tests/Dockerfile.tests
+      args:
+        - GO_VERSION=1.20
+    environment:
+      PROJECT: firelete-int-id-integration-tests
+      COLLECTION_NAME: TestCollection
+      FIRESTORE_EMULATOR_HOST: firebase-emulator:8080
+      APP_URL: http://firelete-int-id-app:3001
+    depends_on:
+      - firelete-int-id-app
+    command: --tags=integrationintid
